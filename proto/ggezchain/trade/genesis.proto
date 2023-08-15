@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package ggezchain.trade;
+
+import "gogoproto/gogo.proto";
+import "ggezchain/trade/params.proto";
+import "ggezchain/trade/trade_index.proto";
+import "ggezchain/trade/stored_trade.proto";
+
+option go_package = "github.com/ggezone/ggezchain/x/trade/types";
+
+// GenesisState defines the trade module's genesis state.
+message GenesisState {
+           Params      params          = 1 [(gogoproto.nullable) = false];
+           TradeIndex  tradeIndex      = 2 [(gogoproto.nullable) = false];
+  repeated StoredTrade storedTradeList = 3 [(gogoproto.nullable) = false];
+}
+

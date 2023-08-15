@@ -1,0 +1,7 @@
+syntax = "proto3";
+package ggezchain.trade;
+
+option go_package = "github.com/ggezone/ggezchain/x/trade/types";
+
+// Msg defines the Msg service.
+service Msg {}
