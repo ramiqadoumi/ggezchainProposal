@@ -1,7 +1,25 @@
 syntax = "proto3";
+
 package ggezchain.trade;
 
 option go_package = "github.com/ggezone/ggezchain/x/trade/types";
 
 // Msg defines the Msg service.
-service Msg {}
+service Msg {
+  rpc CreateTrade (MsgCreateTrade) returns (MsgCreateTradeResponse);
+}
+message MsgCreateTrade {
+  string creator         = 1;
+  string tradeType       = 2;
+  string coin            = 3;
+  string price           = 4;
+  string quantity        = 5;
+  string receiverAddress = 6;
+  string tradeData       = 7;
+}
+
+message MsgCreateTradeResponse {
+  uint64 tradeIndex = 1;
+  uint64 status     = 2;
+}
+
