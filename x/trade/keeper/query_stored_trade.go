@@ -3,10 +3,10 @@ package keeper
 import (
 	"context"
 
+	"github.com/GGEZLabs/ggezchain/x/trade/types"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/query"
-	"github.com/ggezone/ggezchain/x/trade/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

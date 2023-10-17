@@ -4,11 +4,11 @@ import (
 	"strconv"
 	"testing"
 
+	keepertest "github.com/GGEZLabs/ggezchain/testutil/keeper"
+	"github.com/GGEZLabs/ggezchain/testutil/nullify"
+	"github.com/GGEZLabs/ggezchain/x/trade/keeper"
+	"github.com/GGEZLabs/ggezchain/x/trade/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	keepertest "github.com/ggezone/ggezchain/testutil/keeper"
-	"github.com/ggezone/ggezchain/testutil/nullify"
-	"github.com/ggezone/ggezchain/x/trade/keeper"
-	"github.com/ggezone/ggezchain/x/trade/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -18,7 +18,7 @@ var _ = strconv.IntSize
 func createNStoredTrade(keeper *keeper.Keeper, ctx sdk.Context, n int) []types.StoredTrade {
 	items := make([]types.StoredTrade, n)
 	for i := range items {
-		items[i].TradeIndex = strconv.Itoa(i)
+		items[i].TradeIndex = uint64(i)
 
 		keeper.SetStoredTrade(ctx, items[i])
 	}

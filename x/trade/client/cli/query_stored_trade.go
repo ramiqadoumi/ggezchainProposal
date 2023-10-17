@@ -3,9 +3,10 @@ package cli
 import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
+	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
 
-	"github.com/ggezone/ggezchain/x/trade/types"
+	"github.com/GGEZLabs/ggezchain/x/trade/types"
 )
 
 func CmdListStoredTrade() *cobra.Command {
@@ -57,7 +58,7 @@ func CmdShowStoredTrade() *cobra.Command {
 
 			queryClient := types.NewQueryClient(clientCtx)
 
-			argTradeIndex := args[0]
+			argTradeIndex, err := cast.ToUint64E(args[0])
 
 			params := &types.QueryGetStoredTradeRequest{
 				TradeIndex: argTradeIndex,

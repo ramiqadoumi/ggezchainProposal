@@ -8,9 +8,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	keepertest "github.com/ggezone/ggezchain/testutil/keeper"
-	"github.com/ggezone/ggezchain/testutil/nullify"
-	"github.com/ggezone/ggezchain/x/trade/types"
+	keepertest "github.com/GGEZLabs/ggezchain/testutil/keeper"
+	"github.com/GGEZLabs/ggezchain/testutil/nullify"
+	"github.com/GGEZLabs/ggezchain/x/trade/types"
 )
 
 func TestTradeIndexQuery(t *testing.T) {

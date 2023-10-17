@@ -9,27 +9,31 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/ggezone/ggezchain/x/trade/types"
+	"github.com/GGEZLabs/ggezchain/x/trade/types"
 )
 
 type (
 	Keeper struct {
+		bank       types.BankTradeKeeper
 		cdc        codec.BinaryCodec
 		storeKey   storetypes.StoreKey
 		memKey     storetypes.StoreKey
 		paramstore paramtypes.Subspace
 
-		bankKeeper types.BankKeeper
+		bankKeeper   types.BankKeeper
+		stakingKeeper types.StakingKeeper
 	}
 )
 
 func NewKeeper(
+	bank types.BankTradeKeeper,
 	cdc codec.BinaryCodec,
 	storeKey,
 	memKey storetypes.StoreKey,
 	ps paramtypes.Subspace,
 
 	bankKeeper types.BankKeeper,
+	stakingKeeper types.StakingKeeper,
 ) *Keeper {
 	// set KeyTable if it has not already been set
 	if !ps.HasKeyTable() {
@@ -37,12 +41,14 @@ func NewKeeper(
 	}
 
 	return &Keeper{
+		bank:       bank,
 		cdc:        cdc,
 		storeKey:   storeKey,
 		memKey:     memKey,
 		paramstore: ps,
 
-		bankKeeper: bankKeeper,
+		bankKeeper:   bankKeeper,
+		stakingKeeper: stakingKeeper,
 	}
 }
 

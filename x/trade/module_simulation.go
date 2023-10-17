@@ -3,14 +3,14 @@ package trade
 import (
 	"math/rand"
 
+	"github.com/GGEZLabs/ggezchain/testutil/sample"
+	tradesimulation "github.com/GGEZLabs/ggezchain/x/trade/simulation"
+	"github.com/GGEZLabs/ggezchain/x/trade/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
-	"github.com/ggezone/ggezchain/testutil/sample"
-	tradesimulation "github.com/ggezone/ggezchain/x/trade/simulation"
-	"github.com/ggezone/ggezchain/x/trade/types"
 )
 
 // avoid unused import issue
@@ -26,6 +26,10 @@ const (
 	opWeightMsgCreateTrade = "op_weight_msg_create_trade"
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgCreateTrade int = 100
+
+	opWeightMsgProcessTrade = "op_weight_msg_process_trade"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgProcessTrade int = 100
 
 	// this line is used by starport scaffolding # simapp/module/const
 )
@@ -47,7 +51,7 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 func (am AppModule) RegisterStoreDecoder(_ sdk.StoreDecoderRegistry) {}
 
 // ProposalContents doesn't return any content functions for governance proposals.
-func (AppModule) ProposalContents(_ module.SimulationState) []simtypes.WeightedProposalContent {
+func (AppModule) ProposalContents(_ module.SimulationState) []simtypes.WeightedProposalMsg {
 	return nil
 }
 
@@ -66,6 +70,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		tradesimulation.SimulateMsgCreateTrade(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgProcessTrade int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgProcessTrade, &weightMsgProcessTrade, nil,
+		func(_ *rand.Rand) {
+			weightMsgProcessTrade = defaultWeightMsgProcessTrade
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgProcessTrade,
+		tradesimulation.SimulateMsgProcessTrade(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -79,6 +94,15 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgCreateTrade,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				tradesimulation.SimulateMsgCreateTrade(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgProcessTrade,
+			defaultWeightMsgProcessTrade,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				tradesimulation.SimulateMsgProcessTrade(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

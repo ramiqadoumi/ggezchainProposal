@@ -8,7 +8,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 	// "github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/ggezone/ggezchain/x/trade/types"
+	"github.com/GGEZLabs/ggezchain/x/trade/types"
 )
 
 var (
@@ -31,6 +31,8 @@ func GetTxCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(CmdCreateTrade())
+
+	cmd.AddCommand(CmdProcessTrade())
 	// this line is used by starport scaffolding # 1
 
 	return cmd

@@ -8,13 +8,20 @@ import (
 )
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
-	cdc.RegisterConcrete(&MsgCreateTrade{}, "trade/CreateTrade", nil)
+	// cdc.RegisterConcrete(&MsgCreateTrade{}, "trade/CreateTrade", nil)
+	// cdc.RegisterConcrete(&MsgProcessTrade{}, "trade/ProcessTrade", nil)
+	cdc.RegisterConcrete(&MsgCreateTrade{}, "trade/MsgCreateTrade", nil)
+	cdc.RegisterConcrete(&MsgProcessTrade{}, "trade/MsgProcessTrade", nil)
 	// this line is used by starport scaffolding # 2
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgCreateTrade{},
+	)
+
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgProcessTrade{},
 	)
 	// this line is used by starport scaffolding # 3
 

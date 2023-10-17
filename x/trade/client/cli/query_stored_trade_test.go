@@ -12,10 +12,10 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/ggezone/ggezchain/testutil/network"
-	"github.com/ggezone/ggezchain/testutil/nullify"
-	"github.com/ggezone/ggezchain/x/trade/client/cli"
-	"github.com/ggezone/ggezchain/x/trade/types"
+	"github.com/GGEZLabs/ggezchain/testutil/network"
+	"github.com/GGEZLabs/ggezchain/testutil/nullify"
+	"github.com/GGEZLabs/ggezchain/x/trade/client/cli"
+	"github.com/GGEZLabs/ggezchain/x/trade/types"
 )
 
 // Prevent strconv unused error
@@ -27,7 +27,7 @@ func networkWithStoredTradeObjects(t *testing.T, n int) (*network.Network, []typ
 	state := types.GenesisState{}
 	for i := 0; i < n; i++ {
 		storedTrade := types.StoredTrade{
-			TradeIndex: strconv.Itoa(i),
+			TradeIndex: uint64(i),
 		}
 		nullify.Fill(&storedTrade)
 		state.StoredTradeList = append(state.StoredTradeList, storedTrade)
@@ -47,7 +47,7 @@ func TestShowStoredTrade(t *testing.T) {
 	}
 	tests := []struct {
 		desc         string
-		idTradeIndex string
+		idTradeIndex uint64
 
 		args []string
 		err  error
@@ -62,7 +62,7 @@ func TestShowStoredTrade(t *testing.T) {
 		},
 		{
 			desc:         "not found",
-			idTradeIndex: strconv.Itoa(100000),
+			idTradeIndex: uint64(100000),
 
 			args: common,
 			err:  status.Error(codes.NotFound, "not found"),
@@ -71,7 +71,7 @@ func TestShowStoredTrade(t *testing.T) {
 	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
 			args := []string{
-				tc.idTradeIndex,
+				strconv.Itoa(int(tc.idTradeIndex)),
 			}
 			args = append(args, tc.args...)
 			out, err := clitestutil.ExecTestCLICmd(ctx, cli.CmdShowStoredTrade(), args)

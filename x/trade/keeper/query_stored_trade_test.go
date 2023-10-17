@@ -10,9 +10,9 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	keepertest "github.com/ggezone/ggezchain/testutil/keeper"
-	"github.com/ggezone/ggezchain/testutil/nullify"
-	"github.com/ggezone/ggezchain/x/trade/types"
+	keepertest "github.com/GGEZLabs/ggezchain/testutil/keeper"
+	"github.com/GGEZLabs/ggezchain/testutil/nullify"
+	"github.com/GGEZLabs/ggezchain/x/trade/types"
 )
 
 // Prevent strconv unused error
@@ -45,7 +45,7 @@ func TestStoredTradeQuerySingle(t *testing.T) {
 		{
 			desc: "KeyNotFound",
 			request: &types.QueryGetStoredTradeRequest{
-				TradeIndex: strconv.Itoa(100000),
+				TradeIndex: uint64(100000),
 			},
 			err: status.Error(codes.NotFound, "not found"),
 		},

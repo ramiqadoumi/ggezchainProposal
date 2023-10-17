@@ -10,7 +10,7 @@ import (
 	// "github.com/cosmos/cosmos-sdk/client/flags"
 	// sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/ggezone/ggezchain/x/trade/types"
+	"github.com/GGEZLabs/ggezchain/x/trade/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module
@@ -28,6 +28,8 @@ func GetQueryCmd(queryRoute string) *cobra.Command {
 	cmd.AddCommand(CmdShowTradeIndex())
 	cmd.AddCommand(CmdListStoredTrade())
 	cmd.AddCommand(CmdShowStoredTrade())
+	cmd.AddCommand(CmdListStoredTempTrade())
+	cmd.AddCommand(CmdShowStoredTempTrade())
 	// this line is used by starport scaffolding # 1
 
 	return cmd

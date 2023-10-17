@@ -2,11 +2,12 @@ syntax = "proto3";
 
 package ggezchain.trade;
 
-option go_package = "github.com/ggezone/ggezchain/x/trade/types";
+option go_package = "github.com/GGEZLabs/ggezchain/x/trade/types";
 
 // Msg defines the Msg service.
 service Msg {
-  rpc CreateTrade (MsgCreateTrade) returns (MsgCreateTradeResponse);
+  rpc CreateTrade  (MsgCreateTrade ) returns (MsgCreateTradeResponse );
+  rpc ProcessTrade (MsgProcessTrade) returns (MsgProcessTradeResponse);
 }
 message MsgCreateTrade {
   string creator         = 1;
@@ -20,6 +21,23 @@ message MsgCreateTrade {
 
 message MsgCreateTradeResponse {
   uint64 tradeIndex = 1;
-  uint64 status     = 2;
+  string status     = 2;
+}
+
+message MsgProcessTrade {
+  string creator     = 1;
+  string processType = 2;
+  uint64 tradeIndex  = 3;
+}
+
+message MsgProcessTradeResponse {
+  uint64 tradeIndex  = 1;
+  string status      = 2;
+  string checker     = 3;
+  string maker       = 4;
+  string tradeData   = 5;
+  string createDate  = 6;
+  string updateDate  = 7;
+  string processDate = 8;
 }
 

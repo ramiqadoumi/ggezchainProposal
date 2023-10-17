@@ -110,17 +110,19 @@ import (
 	ibctm "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint"
 	"github.com/spf13/cast"
 
-	trademodule "github.com/ggezone/ggezchain/x/trade"
-	trademodulekeeper "github.com/ggezone/ggezchain/x/trade/keeper"
-	trademoduletypes "github.com/ggezone/ggezchain/x/trade/types"
+	trademodule "github.com/GGEZLabs/ggezchain/x/trade"
+	trademodulekeeper "github.com/GGEZLabs/ggezchain/x/trade/keeper"
+	trademoduletypes "github.com/GGEZLabs/ggezchain/x/trade/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
-	appparams "github.com/ggezone/ggezchain/app/params"
-	"github.com/ggezone/ggezchain/docs"
+	appparams "github.com/GGEZLabs/ggezchain/app/params"
+	"github.com/GGEZLabs/ggezchain/docs"
+
+	
 )
 
 const (
-	AccountAddressPrefix = "cosmos"
+	AccountAddressPrefix = "ggez"
 	Name                 = "ggezchain"
 )
 
@@ -314,7 +316,7 @@ func New(
 		tkeys:             tkeys,
 		memKeys:           memKeys,
 	}
-
+	authAddr := authtypes.NewModuleAddress(govtypes.ModuleName).String()
 	app.ParamsKeeper = initParamsKeeper(
 		appCodec,
 		cdc,
@@ -323,7 +325,7 @@ func New(
 	)
 
 	// set the BaseApp's parameter store
-	app.ConsensusParamsKeeper = consensusparamkeeper.NewKeeper(appCodec, keys[upgradetypes.StoreKey], authtypes.NewModuleAddress(govtypes.ModuleName).String())
+	app.ConsensusParamsKeeper = consensusparamkeeper.NewKeeper(appCodec, keys[upgradetypes.StoreKey], authAddr)
 	bApp.SetParamStore(&app.ConsensusParamsKeeper)
 
 	// add capability keeper and ScopeToModule for ibc module
@@ -347,7 +349,7 @@ func New(
 		authtypes.ProtoBaseAccount,
 		maccPerms,
 		sdk.Bech32PrefixAccAddr,
-		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+		authAddr,
 	)
 
 	app.AuthzKeeper = authzkeeper.NewKeeper(
@@ -362,7 +364,7 @@ func New(
 		keys[banktypes.StoreKey],
 		app.AccountKeeper,
 		app.BlockedModuleAccountAddrs(),
-		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+		authAddr,
 	)
 
 	app.StakingKeeper = stakingkeeper.NewKeeper(
@@ -370,7 +372,7 @@ func New(
 		keys[stakingtypes.StoreKey],
 		app.AccountKeeper,
 		app.BankKeeper,
-		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+		authAddr,
 	)
 
 	app.FeeGrantKeeper = feegrantkeeper.NewKeeper(
@@ -386,7 +388,7 @@ func New(
 		app.AccountKeeper,
 		app.BankKeeper,
 		authtypes.FeeCollectorName,
-		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+		authAddr,
 	)
 
 	app.DistrKeeper = distrkeeper.NewKeeper(
@@ -396,7 +398,7 @@ func New(
 		app.BankKeeper,
 		app.StakingKeeper,
 		authtypes.FeeCollectorName,
-		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+		authAddr,
 	)
 
 	app.SlashingKeeper = slashingkeeper.NewKeeper(
@@ -404,7 +406,7 @@ func New(
 		cdc,
 		keys[slashingtypes.StoreKey],
 		app.StakingKeeper,
-		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+		authAddr,
 	)
 
 	app.CrisisKeeper = crisiskeeper.NewKeeper(
@@ -413,7 +415,7 @@ func New(
 		invCheckPeriod,
 		app.BankKeeper,
 		authtypes.FeeCollectorName,
-		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+		authAddr,
 	)
 
 	groupConfig := group.DefaultConfig()
@@ -435,7 +437,7 @@ func New(
 		appCodec,
 		homePath,
 		app.BaseApp,
-		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+		authAddr,
 	)
 
 	// ... other modules keepers
@@ -503,7 +505,7 @@ func New(
 		app.StakingKeeper,
 		app.MsgServiceRouter(),
 		govConfig,
-		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
+		authAddr,
 	)
 
 	govRouter := govv1beta1.NewRouter()
@@ -521,12 +523,14 @@ func New(
 	)
 
 	app.TradeKeeper = *trademodulekeeper.NewKeeper(
+		app.BankKeeper,
 		appCodec,
 		keys[trademoduletypes.StoreKey],
 		keys[trademoduletypes.MemStoreKey],
 		app.GetSubspace(trademoduletypes.ModuleName),
 
 		app.BankKeeper,
+		app.StakingKeeper,
 	)
 	tradeModule := trademodule.NewAppModule(appCodec, app.TradeKeeper, app.AccountKeeper, app.BankKeeper)
 
@@ -731,7 +735,7 @@ func New(
 	app.SetInitChainer(app.InitChainer)
 	app.SetBeginBlocker(app.BeginBlocker)
 	app.SetEndBlocker(app.EndBlocker)
-
+	app.setupUpgradeHandlers(app.configurator)
 	if loadLatest {
 		if err := app.LoadLatestVersion(); err != nil {
 			tmos.Exit(err.Error())
@@ -843,6 +847,12 @@ func (app *App) GetTKey(storeKey string) *storetypes.TransientStoreKey {
 func (app *App) GetMemKey(storeKey string) *storetypes.MemoryStoreKey {
 	return app.memKeys[storeKey]
 }
+
+// upgrade handlers 
+
+
+
+
 
 // GetSubspace returns a param subspace for a given module name.
 //

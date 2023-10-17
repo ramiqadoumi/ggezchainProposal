@@ -4,14 +4,14 @@ import (
 	"context"
 	"testing"
 
+	keepertest "github.com/GGEZLabs/ggezchain/testutil/keeper"
+	"github.com/GGEZLabs/ggezchain/x/trade/keeper"
+	"github.com/GGEZLabs/ggezchain/x/trade/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	keepertest "github.com/ggezone/ggezchain/testutil/keeper"
-	"github.com/ggezone/ggezchain/x/trade/keeper"
-	"github.com/ggezone/ggezchain/x/trade/types"
 	"github.com/stretchr/testify/require"
 )
 
-func setupMsgServer(t testing.TB) (types.MsgServer, context.Context) {
+func setupMsgServer(t *testing.T) (types.MsgServer, context.Context) {
 	k, ctx := keepertest.TradeKeeper(t)
 	return keeper.NewMsgServerImpl(*k), sdk.WrapSDKContext(ctx)
 }

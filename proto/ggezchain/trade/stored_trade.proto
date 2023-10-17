@@ -1,10 +1,10 @@
 syntax = "proto3";
 package ggezchain.trade;
 
-option go_package = "github.com/ggezone/ggezchain/x/trade/types";
+option go_package = "github.com/GGEZLabs/ggezchain/x/trade/types";
 
 message StoredTrade {
-  string tradeIndex = 1; 
+  uint64 tradeIndex = 1; 
   string tradeType = 2; 
   string coin = 3; 
   string price = 4; 
