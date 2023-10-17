@@ -10,9 +10,9 @@ import (
 	"time"
 
 	errors "cosmossdk.io/errors"
-	"github.com/GGEZLabs/ggezchain/x/trade/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkErrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/mousaibrah/ggezchain/x/trade/types"
 )
 
 type TradeDataObject struct {
@@ -265,7 +265,7 @@ func (k Keeper) GetStakingTest(staking types.StakingKeeper) (stakingKeeper types
 	return staking
 }
 
-func (k Keeper) ValidateTradeData(tradeData string) (valid bool,err error) {
+func (k Keeper) ValidateTradeData(tradeData string) (valid bool, err error) {
 
 	isJson := IsJSON(tradeData)
 
@@ -273,82 +273,81 @@ func (k Keeper) ValidateTradeData(tradeData string) (valid bool,err error) {
 		var data TradeDataObject
 		err = json.Unmarshal([]byte(tradeData), &data)
 		if err != nil {
-			return false,errors.Wrap(types.ErrInvalidTradeDataObject,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrInvalidTradeDataObject, "Invalid Trade Data Object")
 		}
 		tradeData := data.TradeData
 		if tradeData.AssetHolderID <= 0 {
-			return false,errors.Wrap(types.ErrTradeDataAssetHolderID,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataAssetHolderID, "Invalid Trade Data Object")
 		}
 		if tradeData.AssetID <= 0 {
-			return false,errors.Wrap(types.ErrTradeDataAssetID,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataAssetID, "Invalid Trade Data Object")
 		}
 		if tradeData.TradeRequestID <= 0 {
-			return false,errors.Wrap(types.ErrTradeDataRequestID,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataRequestID, "Invalid Trade Data Object")
 		}
 		if tradeData.TradeValue <= 0 {
-			return false,errors.Wrap(types.ErrTradeDataValue,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataValue, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.Currency) == "" {
-			return false,errors.Wrap(types.ErrTradeDataCurrency,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataCurrency, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.Exchange) == "" {
-			return false,errors.Wrap(types.ErrTradeDataExchange,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataExchange, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.FundName) == "" {
-			return false,errors.Wrap(types.ErrTradeDataFundName,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataFundName, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.Issuer) == "" {
-			return false,errors.Wrap(types.ErrTradeDataIssuer,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataIssuer, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.NoShares) == "" {
-			return false,errors.Wrap(types.ErrTradeDataNoShares,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataNoShares, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.Price) == "" {
-			return false,errors.Wrap(types.ErrTradeDataPrice,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataPrice, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.Quantity) == "" {
-			return false,errors.Wrap(types.ErrTradeDataQuantity,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataQuantity, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.Segment) == "" {
-			return false,errors.Wrap(types.ErrTradeDataSegment,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataSegment, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.SharePrice) == "" {
-			return false,errors.Wrap(types.ErrTradeDataSharePrice,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataSharePrice, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.Ticker) == "" {
-			return false,errors.Wrap(types.ErrTradeDataTicker,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataTicker, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.TradeFee) == "" {
-			return false,errors.Wrap(types.ErrTradeDataFee,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataFee, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.TradeNetPrice) == "" {
-			return false,errors.Wrap(types.ErrTradeDataNetPrice,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataNetPrice, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.TradeNetValue) == "" {
-			return false,errors.Wrap(types.ErrTradeDataNetValue,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrTradeDataNetValue, "Invalid Trade Data Object")
 		}
 		if strings.TrimSpace(tradeData.TradeType) == "" {
-			return false,errors.Wrap(types.ErrInvalidTradeType,"Invalid Trade Data Object")
+			return false, errors.Wrap(types.ErrInvalidTradeType, "Invalid Trade Data Object")
 		}
-
 
 		brokerage := data.Brokerage
 		if strings.TrimSpace(brokerage.Country) == "" {
-			return false,errors.Wrap(types.ErrBrokerageCountry,"Invalid Brokerage Country Object")
+			return false, errors.Wrap(types.ErrBrokerageCountry, "Invalid Brokerage Country Object")
 		}
 		if strings.TrimSpace(brokerage.Type) == "" {
-			return false,errors.Wrap(types.ErrBrokerageType,"Invalid Brokerage Type Object")
+			return false, errors.Wrap(types.ErrBrokerageType, "Invalid Brokerage Type Object")
 		}
 		if strings.TrimSpace(brokerage.Name) == "" {
-			return false,errors.Wrap(types.ErrBrokerageName,"Invalid Brokerage Name Object")
+			return false, errors.Wrap(types.ErrBrokerageName, "Invalid Brokerage Name Object")
 		}
-		return true,err
+		return true, err
 	}
-	return false, errors.Wrap(types.ErrInvalidTradeDataJSON,"Invalid Trade Data JSON")
-	
+	return false, errors.Wrap(types.ErrInvalidTradeDataJSON, "Invalid Trade Data JSON")
+
 }
 
 func IsJSON(str string) bool {
 	var jsonFormat json.RawMessage
-    return json.Unmarshal([]byte(str), &jsonFormat) == nil
+	return json.Unmarshal([]byte(str), &jsonFormat) == nil
 }

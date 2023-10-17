@@ -3,14 +3,15 @@ package types_test
 import (
 	"context"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/stretchr/testify/require"
 	"testing"
 
-	keepertest "github.com/GGEZLabs/ggezchain/testutil/keeper"
-	"github.com/GGEZLabs/ggezchain/testutil/sample"
-	"github.com/GGEZLabs/ggezchain/x/trade/keeper"
-	"github.com/GGEZLabs/ggezchain/x/trade/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/stretchr/testify/require"
+
+	keepertest "github.com/mousaibrah/ggezchain/testutil/keeper"
+	"github.com/mousaibrah/ggezchain/testutil/sample"
+	"github.com/mousaibrah/ggezchain/x/trade/keeper"
+	"github.com/mousaibrah/ggezchain/x/trade/types"
 )
 
 func setupMsgServerCreateTrade(t *testing.T) (types.MsgServer, keeper.Keeper, context.Context) {

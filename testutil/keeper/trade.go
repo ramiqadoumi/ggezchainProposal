@@ -1,9 +1,9 @@
 package keeper
 
 import (
+	"testing"
+
 	"cosmossdk.io/simapp"
-	"github.com/GGEZLabs/ggezchain/x/trade/keeper"
-	"github.com/GGEZLabs/ggezchain/x/trade/types"
 	tmdb "github.com/cometbft/cometbft-db"
 	"github.com/cometbft/cometbft/libs/log"
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
@@ -13,8 +13,9 @@ import (
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	typesparams "github.com/cosmos/cosmos-sdk/x/params/types"
+	"github.com/mousaibrah/ggezchain/x/trade/keeper"
+	"github.com/mousaibrah/ggezchain/x/trade/types"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TradeKeeper(t *testing.T) (*keeper.Keeper, sdk.Context) {

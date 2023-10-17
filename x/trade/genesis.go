@@ -1,9 +1,9 @@
 package trade
 
 import (
-	"github.com/GGEZLabs/ggezchain/x/trade/keeper"
-	"github.com/GGEZLabs/ggezchain/x/trade/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/mousaibrah/ggezchain/x/trade/keeper"
+	"github.com/mousaibrah/ggezchain/x/trade/types"
 )
 
 // InitGenesis initializes the module's state from a provided genesis state.

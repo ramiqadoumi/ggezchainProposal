@@ -4,11 +4,11 @@ import (
 	"strconv"
 	"testing"
 
-	keepertest "github.com/GGEZLabs/ggezchain/testutil/keeper"
-	"github.com/GGEZLabs/ggezchain/testutil/nullify"
-	"github.com/GGEZLabs/ggezchain/x/trade/keeper"
-	"github.com/GGEZLabs/ggezchain/x/trade/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	keepertest "github.com/mousaibrah/ggezchain/testutil/keeper"
+	"github.com/mousaibrah/ggezchain/testutil/nullify"
+	"github.com/mousaibrah/ggezchain/x/trade/keeper"
+	"github.com/mousaibrah/ggezchain/x/trade/types"
 	"github.com/stretchr/testify/require"
 )
 

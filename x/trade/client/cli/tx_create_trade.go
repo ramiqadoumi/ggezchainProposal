@@ -3,10 +3,10 @@ package cli
 import (
 	"strconv"
 
-	"github.com/GGEZLabs/ggezchain/x/trade/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
+	"github.com/mousaibrah/ggezchain/x/trade/types"
 	"github.com/spf13/cobra"
 )
 

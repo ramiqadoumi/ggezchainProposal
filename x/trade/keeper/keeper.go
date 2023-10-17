@@ -9,7 +9,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/GGEZLabs/ggezchain/x/trade/types"
+	"github.com/mousaibrah/ggezchain/x/trade/types"
 )
 
 type (
@@ -20,7 +20,7 @@ type (
 		memKey     storetypes.StoreKey
 		paramstore paramtypes.Subspace
 
-		bankKeeper   types.BankKeeper
+		bankKeeper    types.BankKeeper
 		stakingKeeper types.StakingKeeper
 	}
 )
@@ -47,7 +47,7 @@ func NewKeeper(
 		memKey:     memKey,
 		paramstore: ps,
 
-		bankKeeper:   bankKeeper,
+		bankKeeper:    bankKeeper,
 		stakingKeeper: stakingKeeper,
 	}
 }

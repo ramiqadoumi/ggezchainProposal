@@ -1,8 +1,8 @@
 package keeper
 
 import (
-	"github.com/GGEZLabs/ggezchain/x/trade/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/mousaibrah/ggezchain/x/trade/types"
 )
 
 // GetParams get all parameters as types.Params

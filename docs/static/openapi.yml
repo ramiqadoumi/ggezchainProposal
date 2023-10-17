@@ -34923,7 +34923,7 @@ paths:
           format: int64
       tags:
         - Query
-  /GGEZLabs/ggezchain/trade/params:
+  /mousaibrah/ggezchain/trade/params:
     get:
       summary: Parameters queries the parameters of the module.
       operationId: GgezchainTradeParams
@@ -34959,7 +34959,7 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
-  /GGEZLabs/ggezchain/trade/stored_temp_trade:
+  /mousaibrah/ggezchain/trade/stored_temp_trade:
     get:
       operationId: GgezchainTradeStoredTempTradeAll
       responses:
@@ -35086,7 +35086,7 @@ paths:
           type: boolean
       tags:
         - Query
-  /GGEZLabs/ggezchain/trade/stored_temp_trade/{tradeIndex}:
+  /mousaibrah/ggezchain/trade/stored_temp_trade/{tradeIndex}:
     get:
       summary: Queries a list of StoredTempTrade items.
       operationId: GgezchainTradeStoredTempTrade
@@ -35133,7 +35133,7 @@ paths:
           format: uint64
       tags:
         - Query
-  /GGEZLabs/ggezchain/trade/stored_trade:
+  /mousaibrah/ggezchain/trade/stored_trade:
     get:
       operationId: GgezchainTradeStoredTradeAll
       responses:
@@ -35281,7 +35281,7 @@ paths:
           type: boolean
       tags:
         - Query
-  /GGEZLabs/ggezchain/trade/stored_trade/{tradeIndex}:
+  /mousaibrah/ggezchain/trade/stored_trade/{tradeIndex}:
     get:
       summary: Queries a list of StoredTrade items.
       operationId: GgezchainTradeStoredTrade
@@ -35349,7 +35349,7 @@ paths:
           format: uint64
       tags:
         - Query
-  /GGEZLabs/ggezchain/trade/trade_index:
+  /mousaibrah/ggezchain/trade/trade_index:
     get:
       summary: Queries a TradeIndex by index.
       operationId: GgezchainTradeTradeIndex

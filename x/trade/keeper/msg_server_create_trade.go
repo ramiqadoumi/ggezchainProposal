@@ -2,19 +2,20 @@ package keeper
 
 import (
 	"context"
-	"github.com/GGEZLabs/ggezchain/x/trade/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"time"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/mousaibrah/ggezchain/x/trade/types"
 )
 
 func (k msgServer) CreateTrade(goCtx context.Context, msg *types.MsgCreateTrade) (*types.MsgCreateTradeResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	isValidTradeDataObject , validateTradeDataErr := k.ValidateTradeData(msg.TradeData)
+	isValidTradeDataObject, validateTradeDataErr := k.ValidateTradeData(msg.TradeData)
 	if !isValidTradeDataObject {
 		return nil, validateTradeDataErr
 	}
-	
+
 	isAllowed, _ := k.IsAddressAllowed(k.stakingKeeper, ctx, msg.Creator, types.CreateTrade)
 	if !isAllowed {
 		//panic("you don't have permission to perform this action")

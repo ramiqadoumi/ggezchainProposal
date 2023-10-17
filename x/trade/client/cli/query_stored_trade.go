@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
 
-	"github.com/GGEZLabs/ggezchain/x/trade/types"
+	"github.com/mousaibrah/ggezchain/x/trade/types"
 )
 
 func CmdListStoredTrade() *cobra.Command {
