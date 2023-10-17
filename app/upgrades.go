@@ -10,6 +10,7 @@ import (
 		sdk "github.com/cosmos/cosmos-sdk/types"
 	mobile "github.com/mousaibrah/ggezchain/x/mobile/types"
 	trade "github.com/mousaibrah/ggezchain/x/trade/types"
+	tradeModule "github.com/mousaibrah/ggezchain/x/trade"
 	mobileModule "github.com/mousaibrah/ggezchain/x/mobile"
 	mobileKeeper "github.com/mousaibrah/ggezchain/x/mobile/keeper"
 )
@@ -26,6 +27,7 @@ func (app *App) setupUpgradeHandlers(configurator module.Configurator) {
 			// Set foo's version to the latest ConsensusVersion in the VersionMap.
 			// This will skip running InitGenesis on Foo
 			fromVM[mobile.ModuleName] = mobileModule.AppModule{}.ConsensusVersion()
+			fromVM[trade.ModuleName] = tradeModule.AppModule{}.ConsensusVersion()
 			mobileModule.InitGenesis(ctx, keeper, genState)
 		
 			return app.mm.RunMigrations(ctx,app.configurator, fromVM)
