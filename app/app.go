@@ -114,6 +114,9 @@ import (
 	trademodulekeeper "github.com/mousaibrah/ggezchain/x/trade/keeper"
 	trademoduletypes "github.com/mousaibrah/ggezchain/x/trade/types"
 
+	mobilemodule "github.com/mousaibrah/ggezchain/x/mobile"
+	mobilemodulekeeper "github.com/mousaibrah/ggezchain/x/mobile/keeper"
+	mobilemoduletypes "github.com/mousaibrah/ggezchain/x/mobile/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	appparams "github.com/mousaibrah/ggezchain/app/params"
@@ -175,6 +178,7 @@ var (
 		vesting.AppModuleBasic{},
 		consensus.AppModuleBasic{},
 		trademodule.AppModuleBasic{},
+		mobilemodule.AppModuleBasic{},
 		// this line is used by starport scaffolding # stargate/app/moduleBasic
 	)
 
@@ -189,6 +193,7 @@ var (
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
 		trademoduletypes.ModuleName:    {authtypes.Minter, authtypes.Burner, authtypes.Staking},
+		mobilemoduletypes.ModuleName:   {authtypes.Minter, authtypes.Burner, authtypes.Staking},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -252,6 +257,8 @@ type App struct {
 	ScopedICAHostKeeper  capabilitykeeper.ScopedKeeper
 
 	TradeKeeper trademodulekeeper.Keeper
+
+	MobileKeeper mobilemodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// mm is the module manager
@@ -299,6 +306,7 @@ func New(
 		feegrant.StoreKey, evidencetypes.StoreKey, ibctransfertypes.StoreKey, icahosttypes.StoreKey,
 		capabilitytypes.StoreKey, group.StoreKey, icacontrollertypes.StoreKey, consensusparamtypes.StoreKey,
 		trademoduletypes.StoreKey,
+		mobilemoduletypes.StoreKey,
 		// this line is used by starport scaffolding # stargate/app/storeKey
 	)
 	tkeys := sdk.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -533,6 +541,16 @@ func New(
 	)
 	tradeModule := trademodule.NewAppModule(appCodec, app.TradeKeeper, app.AccountKeeper, app.BankKeeper)
 
+	app.MobileKeeper = *mobilemodulekeeper.NewKeeper(
+		appCodec,
+		keys[mobilemoduletypes.StoreKey],
+		keys[mobilemoduletypes.MemStoreKey],
+		app.GetSubspace(mobilemoduletypes.ModuleName),
+
+		app.BankKeeper,
+	)
+	mobileModule := mobilemodule.NewAppModule(appCodec, app.MobileKeeper, app.AccountKeeper, app.BankKeeper)
+
 	// this line is used by starport scaffolding # stargate/app/keeperDefinition
 
 	/**** IBC Routing ****/
@@ -595,6 +613,7 @@ func New(
 		transferModule,
 		icaModule,
 		tradeModule,
+		mobileModule,
 		// this line is used by starport scaffolding # stargate/app/appModule
 
 		crisis.NewAppModule(app.CrisisKeeper, skipGenesisInvariants, app.GetSubspace(crisistypes.ModuleName)), // always be last to make sure that it checks for all invariants and not only part of them
@@ -628,6 +647,7 @@ func New(
 		vestingtypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		trademoduletypes.ModuleName,
+		mobilemoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	)
 
@@ -654,6 +674,7 @@ func New(
 		vestingtypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		trademoduletypes.ModuleName,
+		mobilemoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	)
 
@@ -685,6 +706,7 @@ func New(
 		vestingtypes.ModuleName,
 		consensusparamtypes.ModuleName,
 		trademoduletypes.ModuleName,
+		mobilemoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 	app.mm.SetOrderInitGenesis(genesisModuleOrder...)
@@ -912,6 +934,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(icacontrollertypes.SubModuleName)
 	paramsKeeper.Subspace(icahosttypes.SubModuleName)
 	paramsKeeper.Subspace(trademoduletypes.ModuleName)
+	paramsKeeper.Subspace(mobilemoduletypes.ModuleName)
 	// this line is used by starport scaffolding # stargate/app/paramSubspace
 
 	return paramsKeeper

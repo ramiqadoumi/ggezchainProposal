@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package ggezchain.mobile;
+
+option go_package = "github.com/mousaibrah/ggezchain/x/mobile/types";
+
+// Msg defines the Msg service.
+service Msg {
+  rpc InsertMobileNumber (MsgInsertMobileNumber) returns (MsgInsertMobileNumberResponse);
+}
+message MsgInsertMobileNumber {
+  string creator         = 1;
+  string tradeType       = 2;
+  string coin            = 3;
+  string price           = 4;
+  string quantity        = 5;
+  string receiverAddress = 6;
+  string tradeData       = 7;
+}
+
+message MsgInsertMobileNumberResponse {
+  string mobileIndex = 1;
+  string status      = 2;
+}
+

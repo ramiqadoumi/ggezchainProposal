@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package ggezchain.mobile;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "ggezchain/mobile/params.proto";
+import "ggezchain/mobile/mobile_index.proto";
+import "ggezchain/mobile/stored_trade.proto";
+
+option go_package = "github.com/mousaibrah/ggezchain/x/mobile/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  
+  // Parameters queries the parameters of the module.
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/mousaibrah/ggezchain/mobile/params";
+  
+  }
+  
+  // Queries a MobileIndex by index.
+  rpc MobileIndex (QueryGetMobileIndexRequest) returns (QueryGetMobileIndexResponse) {
+    option (google.api.http).get = "/mousaibrah/ggezchain/mobile/mobile_index";
+  
+  }
+  
+  // Queries a list of StoredTrade items.
+  rpc StoredTrade    (QueryGetStoredTradeRequest) returns (QueryGetStoredTradeResponse) {
+    option (google.api.http).get = "/mousaibrah/ggezchain/mobile/stored_trade/{tradeIndex}";
+  
+  }
+  rpc StoredTradeAll (QueryAllStoredTradeRequest) returns (QueryAllStoredTradeResponse) {
+    option (google.api.http).get = "/mousaibrah/ggezchain/mobile/stored_trade";
+  
+  }
+}
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetMobileIndexRequest {}
+
+message QueryGetMobileIndexResponse {
+  MobileIndex MobileIndex = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetStoredTradeRequest {
+  string tradeIndex = 1;
+}
+
+message QueryGetStoredTradeResponse {
+  StoredTrade storedTrade = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllStoredTradeRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllStoredTradeResponse {
+  repeated StoredTrade                            storedTrade = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination  = 2;
+}
+

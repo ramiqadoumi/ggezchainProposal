@@ -7,15 +7,28 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	V2 "github.com/mousaibrah/ggezchain/app/upgrades/v2"
+		sdk "github.com/cosmos/cosmos-sdk/types"
+	mobile "github.com/mousaibrah/ggezchain/x/mobile/types"
+	mobileModule "github.com/mousaibrah/ggezchain/x/mobile"
+	mobileKeeper "github.com/mousaibrah/ggezchain/x/mobile/keeper"
 )
-
+var (
+	genState mobile.GenesisState
+	keeper mobileKeeper.Keeper
+)
 func (app *App) setupUpgradeHandlers(configurator module.Configurator) {
 	// set up v2 upgrade handler
 	app.UpgradeKeeper.SetUpgradeHandler(
 		V2.UpgradeName,
-		V2.CreateUpgradeHandler(app.mm, app.configurator),
-	)
-
+		func(ctx sdk.Context, plan upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) {
+			// ...
+			// Set foo's version to the latest ConsensusVersion in the VersionMap.
+			// This will skip running InitGenesis on Foo
+			fromVM[mobile.ModuleName] = mobileModule.AppModule{}.ConsensusVersion()
+			mobileModule.InitGenesis(ctx, keeper, genState)
+		
+			return app.mm.RunMigrations(ctx,app.configurator, fromVM)
+		})
 
 	// When a planned update height is reached, the old binary will panic
 	// writing on disk the height and name of the update that triggered it
@@ -36,9 +49,9 @@ func (app *App) setupUpgradeHandlers(configurator module.Configurator) {
 	// sign the changes you need to do every upgrade coming
 	case V2.UpgradeName:
 		storeUpgrades = &storetypes.StoreUpgrades{
-			Added: []string{"feesplit"},
+			Added: []string{"feesplit","mobile"},
 		}
-	
+
 	}
 
 	if storeUpgrades != nil {
