@@ -1,60 +1,34 @@
-package app // upgrades.go
+package app
 
 import (
 	"fmt"
-	// imports for upgrades version and upgrade handler
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
-	"github.com/cosmos/cosmos-sdk/types/module"
+
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
-	V2 "github.com/mousaibrah/ggezchain/app/upgrades/v2"
-		sdk "github.com/cosmos/cosmos-sdk/types"
-	mobile "github.com/mousaibrah/ggezchain/x/mobile/types"
-	mobileModule "github.com/mousaibrah/ggezchain/x/mobile"
-	mobileKeeper "github.com/mousaibrah/ggezchain/x/mobile/keeper"
-)
-var (
-	genState mobile.GenesisState
-	keeper mobileKeeper.Keeper
-)
-func (app *App) setupUpgradeHandlers(configurator module.Configurator) {
-	// set up v2 upgrade handler
-	app.UpgradeKeeper.SetUpgradeHandler(
-		V2.UpgradeName,
-		func(ctx sdk.Context, plan upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) {
-			// ...
-			// Set foo's version to the latest ConsensusVersion in the VersionMap.
-			// This will skip running InitGenesis on Foo
-			fromVM[mobile.ModuleName] = mobileModule.AppModule{}.ConsensusVersion()
-			mobileModule.InitGenesis(ctx, keeper, genState)
-		
-			return app.mm.RunMigrations(ctx,app.configurator, fromVM)
-		})
 
-	// When a planned update height is reached, the old binary will panic
-	// writing on disk the height and name of the update that triggered it
-	// This will read that value, and execute the preparations for the upgrade.
+	utypes "github.com/mousaibrah/ggezchain/app/upgrades/types"
+	// nolint: revive
+	_ "github.com/mousaibrah/ggezchain/app/upgrades"
+)
+
+func (app *App) registerUpgradeHandlers() error {
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
-
 	if err != nil {
-		panic(fmt.Errorf("failed to read upgrade info from disk: %w", err))
+		return err
 	}
 
-	if app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-		return
-	}
-
-	var storeUpgrades *storetypes.StoreUpgrades
-
-	switch upgradeInfo.Name {
-	// sign the changes you need to do every upgrade coming
-	case V2.UpgradeName:
-		storeUpgrades = &storetypes.StoreUpgrades{
-			Added: []string{"feesplit","mobile"},
+	for name, fn := range utypes.GetUpgradesList() {
+		app.Logger().Info(fmt.Sprintf("initializing upgrade `%s`", name))
+		upgrade, err := fn(app.Logger(), &app.App)
+		if err != nil {
+			return fmt.Errorf("unable to unitialize upgrade `%s`: %w", name, err)
 		}
 
+		app.UpgradeKeeper.SetUpgradeHandler(name, upgrade.UpgradeHandler())
+		if storeUpgrades := upgrade.StoreLoader(); storeUpgrades != nil && upgradeInfo.Name == name {
+			app.Logger().Info(fmt.Sprintf("applying store upgrades for `%s`", name))
+			app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, storeUpgrades))
+		}
 	}
 
-	if storeUpgrades != nil {
-		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, storeUpgrades))
-	}
+	return nil
 }
