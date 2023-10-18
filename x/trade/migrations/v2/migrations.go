@@ -20,6 +20,8 @@ func migrateValuesWithPrefix(store sdk.KVStore, cdc codec.BinaryCodec) error {
 
 	for ; oldStoreIter.Valid(); oldStoreIter.Next() {
 		oldKey := oldStoreIter.Key()
+		store.Set(oldStoreIter.Key(), oldStoreIter.Value())
+
 		store.Delete(oldKey) // Delete old key, value
 	}
 

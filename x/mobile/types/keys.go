@@ -17,7 +17,9 @@ const (
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }
-
+func PrefixCertificateID() []byte {
+	return []byte{0x01}
+}
 const (
 	MobileIndexKey = "MobileIndex/value/"
 )
