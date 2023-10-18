@@ -35,3 +35,30 @@ func Migrate(
 
 	return nil
 }
+func MigrateStore(ctx sdk.Context,
+	store sdk.KVStore,
+	legacySubspace exported.Subspace,
+	cdc codec.BinaryCodec) error {
+    return migrateValuesWithPrefix(store, cdc,legacySubspace,ctx)
+}
+
+func migrateValuesWithPrefix(store sdk.KVStore, cdc codec.BinaryCodec,legacySubspace exported.Subspace,ctx sdk.Context,) error {
+    oldStoreIter := store.Iterator(nil, nil)
+  
+    for ; oldStoreIter.Valid(); oldStoreIter.Next() {
+        oldKey := oldStoreIter.Key()	
+        var currParams types.Params
+	 legacySubspace.GetParamSet(ctx, &currParams)
+
+	if err := currParams.Validate(); err != nil {
+		return err
+	}
+
+	bz := cdc.MustMarshal(&currParams)
+	store.Set(ParamsKey, bz)
+        store.Delete(oldKey) // Delete old key, value
+    }
+  
+    return nil
+}
+
