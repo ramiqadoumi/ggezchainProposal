@@ -2,28 +2,36 @@ package v2
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
-	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/mousaibrah/ggezchain/x/trade/exported"
+	"github.com/mousaibrah/ggezchain/x/trade/types"
 )
 
-func MigrateStore(ctx sdk.Context, storeKey storetypes.StoreKey, cdc codec.BinaryCodec) error {
-	store := ctx.KVStore(storeKey)
-	err := migrateValuesWithPrefix(store, cdc)
-	if err != nil {
+const (
+	ModuleName = "trade"
+)
+
+var ParamsKey = []byte{0x01}
+
+// Migrate migrates the x/mint module state from the consensus version 1 to
+// version 2. Specifically, it takes the parameters that are currently stored
+// and managed by the x/params modules and stores them directly into the x/mint
+// module state.
+func Migrate(
+	ctx sdk.Context,
+	store sdk.KVStore,
+	legacySubspace exported.Subspace,
+	cdc codec.BinaryCodec,
+) error {
+	var currParams types.Params
+	legacySubspace.GetParamSet(ctx, &currParams)
+
+	if err := currParams.Validate(); err != nil {
 		return err
 	}
 
-	return nil
-}
-func migrateValuesWithPrefix(store sdk.KVStore, cdc codec.BinaryCodec) error {
-	oldStoreIter := store.Iterator(nil, nil)
-
-	for ; oldStoreIter.Valid(); oldStoreIter.Next() {
-		oldKey := oldStoreIter.Key()
-		store.Set(oldStoreIter.Key(), oldStoreIter.Value())
-
-		store.Delete(oldKey) // Delete old key, value
-	}
+	bz := cdc.MustMarshal(&currParams)
+	store.Set(ParamsKey, bz)
 
 	return nil
 }

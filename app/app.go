@@ -539,7 +539,12 @@ func New(
 		app.BankKeeper,
 		app.StakingKeeper,
 	)
-	tradeModule := trademodule.NewAppModule(appCodec, app.TradeKeeper, app.AccountKeeper, app.BankKeeper)
+	tradeModule := trademodule.NewAppModule(appCodec,
+		app.TradeKeeper,
+		app.AccountKeeper,
+		app.BankKeeper,
+		app.GetSubspace(trademoduletypes.ModuleName),
+	)
 
 	app.MobileKeeper = *mobilemodulekeeper.NewKeeper(
 		appCodec,
