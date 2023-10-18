@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-
 	// this line is used by starport scaffolding # 1
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
@@ -18,7 +17,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/mousaibrah/ggezchain/x/trade/client/cli"
-	"github.com/mousaibrah/ggezchain/x/trade/exported"
 	"github.com/mousaibrah/ggezchain/x/trade/keeper"
 	"github.com/mousaibrah/ggezchain/x/trade/types"
 )
@@ -27,8 +25,6 @@ var (
 	_ module.AppModule      = AppModule{}
 	_ module.AppModuleBasic = AppModuleBasic{}
 )
-
-const ConsensusVersion = 2
 
 // ----------------------------------------------------------------------------
 // AppModuleBasic
@@ -94,10 +90,10 @@ func (AppModuleBasic) GetQueryCmd() *cobra.Command {
 // AppModule implements the AppModule interface that defines the inter-dependent methods that modules need to implement
 type AppModule struct {
 	AppModuleBasic
-	legacySubspace exported.Subspace
-	keeper         keeper.Keeper
-	accountKeeper  types.AccountKeeper
-	bankKeeper     types.BankKeeper
+
+	keeper        keeper.Keeper
+	accountKeeper types.AccountKeeper
+	bankKeeper    types.BankKeeper
 }
 
 func NewAppModule(
@@ -105,14 +101,12 @@ func NewAppModule(
 	keeper keeper.Keeper,
 	accountKeeper types.AccountKeeper,
 	bankKeeper types.BankKeeper,
-	ss exported.Subspace,
 ) AppModule {
 	return AppModule{
 		AppModuleBasic: NewAppModuleBasic(cdc),
 		keeper:         keeper,
 		accountKeeper:  accountKeeper,
 		bankKeeper:     bankKeeper,
-		legacySubspace: ss,
 	}
 }
 
@@ -120,12 +114,6 @@ func NewAppModule(
 func (am AppModule) RegisterServices(cfg module.Configurator) {
 	types.RegisterMsgServer(cfg.MsgServer(), keeper.NewMsgServerImpl(am.keeper))
 	types.RegisterQueryServer(cfg.QueryServer(), am.keeper)
-	migrator := keeper.NewMigrator(am.keeper, am.legacySubspace)
-
-	if err := cfg.RegisterMigration(types.ModuleName, 1, migrator.Migrate1to2); err != nil {
-		panic(fmt.Errorf("failed to migrate %s to v2: %w", types.ModuleName, err))
-	}
-
 }
 
 // RegisterInvariants registers the invariants of the module. If an invariant deviates from its predicted value, the InvariantRegistry triggers appropriate logic (most often the chain will be halted)
@@ -149,7 +137,7 @@ func (am AppModule) ExportGenesis(ctx sdk.Context, cdc codec.JSONCodec) json.Raw
 }
 
 // ConsensusVersion is a sequence number for state-breaking change of the module. It should be incremented on each consensus-breaking change introduced by the module. To avoid wrong/empty versions, the initial version should be set to 1
-func (AppModule) ConsensusVersion() uint64 { return ConsensusVersion }
+func (AppModule) ConsensusVersion() uint64 { return 1 }
 
 // BeginBlock contains the logic that is automatically triggered at the beginning of each block
 func (am AppModule) BeginBlock(_ sdk.Context, _ abci.RequestBeginBlock) {}

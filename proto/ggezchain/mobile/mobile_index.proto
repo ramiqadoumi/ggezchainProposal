@@ -1,9 +1,0 @@
-syntax = "proto3";
-package ggezchain.mobile;
-
-option go_package = "github.com/mousaibrah/ggezchain/x/mobile/types";
-
-message MobileIndex {
-  uint64 nextId = 1; 
-  
-}
