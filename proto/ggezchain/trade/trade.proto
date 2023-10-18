@@ -1,0 +1,47 @@
+syntax = "proto3";
+package ggezchain.trade;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/mousaibrah/ggezchain/x/trade/types";
+
+
+message TradeIndex {
+    uint64 nextId = 1; 
+    
+  }
+// State represents a single Storage key value pair item.
+message State {
+  // key is the stored key
+  string key = 1;
+  // value is the stored value for the given key
+  string value = 2;
+}
+message StoredTrade {
+    uint64 tradeIndex = 1; 
+    string tradeType = 2; 
+    string coin = 3; 
+    string price = 4; 
+    string quantity = 5; 
+    string receiverAddress = 6; 
+    string status = 7; 
+    string maker = 8; 
+    string checker = 9; 
+    string createDate = 10; 
+    string updateDate = 11; 
+    string processDate = 12; 
+    string tradeData = 13; 
+    string result = 14; 
+    
+  }
+
+  message StoredTempTrade {
+    uint64 tradeIndex = 1; 
+    uint64 tempTradeIndex = 2; 
+    string createDate = 3; 
+    
+  }
+  message Params {
+    option (gogoproto.goproto_stringer) = false;
+    
+  }
