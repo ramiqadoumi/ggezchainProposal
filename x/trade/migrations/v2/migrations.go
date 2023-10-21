@@ -8,18 +8,21 @@ import (
 
 func MigrateStore(ctx sdk.Context, storeKey storetypes.StoreKey, cdc codec.BinaryCodec) error {
 	store := ctx.KVStore(storeKey)
-	err := migrateValuesWithPrefix(store, cdc)
+	ctx.Logger().With("Stoooooooooooooooooooooooooooooooooooore", store)
+	err := migrateValuesWithPrefix(store, cdc,ctx)
 	if err != nil {
 		return err
 	}
 
 	return nil
 }
-func migrateValuesWithPrefix(store sdk.KVStore, cdc codec.BinaryCodec) error {
+func migrateValuesWithPrefix(store sdk.KVStore, cdc codec.BinaryCodec,ctx sdk.Context, ) error {
     oldStoreIter := store.Iterator(nil, nil)
   
     for ; oldStoreIter.Valid(); oldStoreIter.Next() {
-        oldKey := oldStoreIter.Key()    
+        oldKey := oldStoreIter.Key()  
+		ctx.Logger().With("Keeeeeeeeeeeeeeeeeey", oldKey)
+
         store.Delete(oldKey) // Delete old key, value
     }
   
