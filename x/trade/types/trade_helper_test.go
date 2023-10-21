@@ -3,9 +3,10 @@ package types_test
 import (
 	"context"
 
+	"testing"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-	"testing"
 
 	keepertest "github.com/mousaibrah/ggezchain/testutil/keeper"
 	"github.com/mousaibrah/ggezchain/testutil/sample"

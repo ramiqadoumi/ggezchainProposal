@@ -1,6 +1,8 @@
 package keeper
 
 import (
+	"testing"
+
 	"cosmossdk.io/simapp"
 	tmdb "github.com/cometbft/cometbft-db"
 	"github.com/cometbft/cometbft/libs/log"
@@ -14,7 +16,6 @@ import (
 	"github.com/mousaibrah/ggezchain/x/trade/keeper"
 	"github.com/mousaibrah/ggezchain/x/trade/types"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TradeKeeper(t *testing.T) (*keeper.Keeper, sdk.Context) {

@@ -1,8 +1,8 @@
 package keeper // migrations.go
 
 import (
-	v2 "github.com/mousaibrah/ggezchain/x/trade/migrations/v2"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	v2 "github.com/mousaibrah/ggezchain/x/trade/migrations/v2"
 )
 
 type Migrator struct {
