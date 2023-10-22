@@ -34,9 +34,9 @@ func (app *App) setupUpgradeHandlers(configurator module.Configurator) {
 	switch upgradeInfo.Name {
 	// sign the changes you need to do every upgrade coming
 	case V2.UpgradeName:
-		storeUpgrades = &storetypes.StoreUpgrades{
-			Added: []string{"feesplit"},
-		}
+		// storeUpgrades = &storetypes.StoreUpgrades{
+		// 	Added: []string{"feesplit"},
+		// }
 
 	}
 
