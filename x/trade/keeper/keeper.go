@@ -9,7 +9,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
-	"github.com/mousaibrah/ggezchain/x/trade/types"
+	"github.com/ramiqadoumi/ggezchain/x/trade/types"
 )
 
 type (

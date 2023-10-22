@@ -6,8 +6,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
-	"github.com/mousaibrah/ggezchain/x/trade/keeper"
-	"github.com/mousaibrah/ggezchain/x/trade/types"
+	"github.com/ramiqadoumi/ggezchain/x/trade/keeper"
+	"github.com/ramiqadoumi/ggezchain/x/trade/types"
 )
 
 func SimulateMsgProcessTrade(

@@ -110,14 +110,14 @@ import (
 	ibctm "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint"
 	"github.com/spf13/cast"
 
-	trademodule "github.com/mousaibrah/ggezchain/x/trade"
-	trademodulekeeper "github.com/mousaibrah/ggezchain/x/trade/keeper"
-	trademoduletypes "github.com/mousaibrah/ggezchain/x/trade/types"
+	trademodule "github.com/ramiqadoumi/ggezchain/x/trade"
+	trademodulekeeper "github.com/ramiqadoumi/ggezchain/x/trade/keeper"
+	trademoduletypes "github.com/ramiqadoumi/ggezchain/x/trade/types"
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
-	appparams "github.com/mousaibrah/ggezchain/app/params"
-	"github.com/mousaibrah/ggezchain/docs"
+	appparams "github.com/ramiqadoumi/ggezchain/app/params"
+	"github.com/ramiqadoumi/ggezchain/docs"
 )
 
 const (

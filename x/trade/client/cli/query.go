@@ -10,7 +10,7 @@ import (
 	// "github.com/cosmos/cosmos-sdk/client/flags"
 	// sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/mousaibrah/ggezchain/x/trade/types"
+	"github.com/ramiqadoumi/ggezchain/x/trade/types"
 )
 
 // GetQueryCmd returns the cli query commands for this module

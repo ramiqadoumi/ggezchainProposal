@@ -8,10 +8,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	keepertest "github.com/mousaibrah/ggezchain/testutil/keeper"
-	"github.com/mousaibrah/ggezchain/testutil/sample"
-	"github.com/mousaibrah/ggezchain/x/trade/keeper"
-	"github.com/mousaibrah/ggezchain/x/trade/types"
+	keepertest "github.com/ramiqadoumi/ggezchain/testutil/keeper"
+	"github.com/ramiqadoumi/ggezchain/testutil/sample"
+	"github.com/ramiqadoumi/ggezchain/x/trade/keeper"
+	"github.com/ramiqadoumi/ggezchain/x/trade/types"
 )
 
 func setupMsgServerCreateTrade(t *testing.T) (types.MsgServer, keeper.Keeper, context.Context) {

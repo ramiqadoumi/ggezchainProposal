@@ -6,8 +6,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/server"
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
-	"github.com/mousaibrah/ggezchain/app"
-	"github.com/mousaibrah/ggezchain/cmd/ggezchaind/cmd"
+	"github.com/ramiqadoumi/ggezchain/app"
+	"github.com/ramiqadoumi/ggezchain/cmd/ggezchaind/cmd"
 )
 
 func main() {

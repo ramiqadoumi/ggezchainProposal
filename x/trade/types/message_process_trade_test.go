@@ -5,7 +5,7 @@ import (
 
 	sdkTypes "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/mousaibrah/ggezchain/testutil/sample"
+	"github.com/ramiqadoumi/ggezchain/testutil/sample"
 	//sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
 )

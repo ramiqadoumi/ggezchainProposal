@@ -12,7 +12,7 @@ import (
 	errors "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkErrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/mousaibrah/ggezchain/x/trade/types"
+	"github.com/ramiqadoumi/ggezchain/x/trade/types"
 )
 
 type TradeDataObject struct {

@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	testkeeper "github.com/mousaibrah/ggezchain/testutil/keeper"
-	"github.com/mousaibrah/ggezchain/x/trade/types"
+	testkeeper "github.com/ramiqadoumi/ggezchain/testutil/keeper"
+	"github.com/ramiqadoumi/ggezchain/x/trade/types"
 	"github.com/stretchr/testify/require"
 )
 

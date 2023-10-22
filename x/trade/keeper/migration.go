@@ -2,7 +2,7 @@ package keeper // migrations.go
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	v2 "github.com/mousaibrah/ggezchain/x/trade/migrations/v2"
+	v2 "github.com/ramiqadoumi/ggezchain/x/trade/migrations/v2"
 )
 
 type Migrator struct {
@@ -18,4 +18,3 @@ func NewMigrator(keeper Keeper) Migrator {
 func (m Migrator) Migrate1to2(ctx sdk.Context) error {
 	return v2.MigrateStore(ctx, m.keeper.storeKey, m.keeper.cdc)
 }
-

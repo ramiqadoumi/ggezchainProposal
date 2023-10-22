@@ -1,4 +1,4 @@
-module github.com/mousaibrah/ggezchain
+module github.com/ramiqadoumi/ggezchain
 
 go 1.19
 

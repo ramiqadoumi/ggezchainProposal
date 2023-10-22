@@ -5,10 +5,10 @@ import (
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	keepertest "github.com/mousaibrah/ggezchain/testutil/keeper"
-	"github.com/mousaibrah/ggezchain/testutil/nullify"
-	"github.com/mousaibrah/ggezchain/x/trade/keeper"
-	"github.com/mousaibrah/ggezchain/x/trade/types"
+	keepertest "github.com/ramiqadoumi/ggezchain/testutil/keeper"
+	"github.com/ramiqadoumi/ggezchain/testutil/nullify"
+	"github.com/ramiqadoumi/ggezchain/x/trade/keeper"
+	"github.com/ramiqadoumi/ggezchain/x/trade/types"
 	"github.com/stretchr/testify/require"
 )
 

@@ -3,7 +3,7 @@ package cmd
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/mousaibrah/ggezchain/app"
+	"github.com/ramiqadoumi/ggezchain/app"
 )
 
 func initSDKConfig() {

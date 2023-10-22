@@ -4,12 +4,12 @@ import (
 	"context"
 	"testing"
 
-	//"github.com/mousaibrah/ggezchain/testutil/sample"
-	tradeKeeper "github.com/mousaibrah/ggezchain/x/trade/keeper"
+	//"github.com/ramiqadoumi/ggezchain/testutil/sample"
+	tradeKeeper "github.com/ramiqadoumi/ggezchain/x/trade/keeper"
 	//sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/mousaibrah/ggezchain/x/trade/types"
+	"github.com/ramiqadoumi/ggezchain/x/trade/types"
 	"github.com/stretchr/testify/require"
 )
 
