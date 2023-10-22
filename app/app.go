@@ -113,7 +113,6 @@ import (
 	trademodule "github.com/ramiqadoumi/ggezchain/x/trade"
 	trademodulekeeper "github.com/ramiqadoumi/ggezchain/x/trade/keeper"
 	trademoduletypes "github.com/ramiqadoumi/ggezchain/x/trade/types"
-
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	appparams "github.com/ramiqadoumi/ggezchain/app/params"
@@ -315,7 +314,7 @@ func New(
 		tkeys:             tkeys,
 		memKeys:           memKeys,
 	}
-	authAddr := authtypes.NewModuleAddress(govtypes.ModuleName).String()
+
 	app.ParamsKeeper = initParamsKeeper(
 		appCodec,
 		cdc,
@@ -324,7 +323,7 @@ func New(
 	)
 
 	// set the BaseApp's parameter store
-	app.ConsensusParamsKeeper = consensusparamkeeper.NewKeeper(appCodec, keys[upgradetypes.StoreKey], authAddr)
+	app.ConsensusParamsKeeper = consensusparamkeeper.NewKeeper(appCodec, keys[upgradetypes.StoreKey], authtypes.NewModuleAddress(govtypes.ModuleName).String())
 	bApp.SetParamStore(&app.ConsensusParamsKeeper)
 
 	// add capability keeper and ScopeToModule for ibc module
@@ -348,7 +347,7 @@ func New(
 		authtypes.ProtoBaseAccount,
 		maccPerms,
 		sdk.Bech32PrefixAccAddr,
-		authAddr,
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
 	app.AuthzKeeper = authzkeeper.NewKeeper(
@@ -363,7 +362,7 @@ func New(
 		keys[banktypes.StoreKey],
 		app.AccountKeeper,
 		app.BlockedModuleAccountAddrs(),
-		authAddr,
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
 	app.StakingKeeper = stakingkeeper.NewKeeper(
@@ -371,7 +370,7 @@ func New(
 		keys[stakingtypes.StoreKey],
 		app.AccountKeeper,
 		app.BankKeeper,
-		authAddr,
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
 	app.FeeGrantKeeper = feegrantkeeper.NewKeeper(
@@ -387,7 +386,7 @@ func New(
 		app.AccountKeeper,
 		app.BankKeeper,
 		authtypes.FeeCollectorName,
-		authAddr,
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
 	app.DistrKeeper = distrkeeper.NewKeeper(
@@ -397,7 +396,7 @@ func New(
 		app.BankKeeper,
 		app.StakingKeeper,
 		authtypes.FeeCollectorName,
-		authAddr,
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
 	app.SlashingKeeper = slashingkeeper.NewKeeper(
@@ -405,7 +404,7 @@ func New(
 		cdc,
 		keys[slashingtypes.StoreKey],
 		app.StakingKeeper,
-		authAddr,
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
 	app.CrisisKeeper = crisiskeeper.NewKeeper(
@@ -414,7 +413,7 @@ func New(
 		invCheckPeriod,
 		app.BankKeeper,
 		authtypes.FeeCollectorName,
-		authAddr,
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
 	groupConfig := group.DefaultConfig()
@@ -436,7 +435,7 @@ func New(
 		appCodec,
 		homePath,
 		app.BaseApp,
-		authAddr,
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
 	// ... other modules keepers
@@ -504,7 +503,7 @@ func New(
 		app.StakingKeeper,
 		app.MsgServiceRouter(),
 		govConfig,
-		authAddr,
+		authtypes.NewModuleAddress(govtypes.ModuleName).String(),
 	)
 
 	govRouter := govv1beta1.NewRouter()
@@ -734,7 +733,7 @@ func New(
 	app.SetInitChainer(app.InitChainer)
 	app.SetBeginBlocker(app.BeginBlocker)
 	app.SetEndBlocker(app.EndBlocker)
-	app.setupUpgradeHandlers(app.configurator)
+
 	if loadLatest {
 		if err := app.LoadLatestVersion(); err != nil {
 			tmos.Exit(err.Error())
@@ -846,8 +845,6 @@ func (app *App) GetTKey(storeKey string) *storetypes.TransientStoreKey {
 func (app *App) GetMemKey(storeKey string) *storetypes.MemoryStoreKey {
 	return app.memKeys[storeKey]
 }
-
-// upgrade handlers
 
 // GetSubspace returns a param subspace for a given module name.
 //

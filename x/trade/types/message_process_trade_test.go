@@ -1,9 +1,8 @@
 package types
 
 import (
-	"testing"
-
 	sdkTypes "github.com/cosmos/cosmos-sdk/types"
+	"testing"
 
 	"github.com/ramiqadoumi/ggezchain/testutil/sample"
 	//sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
